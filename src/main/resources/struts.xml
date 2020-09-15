@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+"http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+    <constant name="struts.devMode" value="false" />
+    
+    <package name="default" extends="struts-default">
+        <interceptors>
+                <interceptor class="com.action.interceptors.AuthenticationInterceptor" name="loginInterceptor">
+                </interceptor>
+                <interceptor-stack name="loginStack">
+                        <interceptor-ref name="loginInterceptor" />
+                        <interceptor-ref name="defaultStack" />
+                </interceptor-stack>
+        </interceptors>
+        
+        <default-interceptor-ref name="loginStack" />
+        <global-results>
+            <result name="login">inloggen.jsp</result>
+        </global-results>   
+        
+        <action name="loginUser" class="com.action.LoginAction">
+            <interceptor-ref name="defaultStack" />
+            <result name="success">ingelogd.jsp</result>
+            <result name="input">inloggen.jsp</result>
+            <result name="login">inloggen.jsp</result>
+        </action>
+        <action name="registreren" class="com.action.RegistreerAction">
+            <interceptor-ref name="defaultStack" />
+            <result name="success">inloggen.jsp</result>
+            <result name="input">registreren.jsp</result>
+        </action>
+        <action name="verwijderenGebruiker" class="com.action.GebruikerVerwijderenAction">
+            <result name="success">/WEB-INF/users/gebruikers.jsp</result>
+            <result name="error">/WEB-INF/users/gebruikers.jsp</result>
+            <result name="login">inloggen.jsp</result>
+        </action>
+        <action name="uitlenenGebruiker" class="com.action.UitlenenAction2">
+            <result name="success">/WEB-INF/users/gebruikers.jsp</result>
+            <result name="input">/WEB-INF/users/gebruikers.jsp</result>
+            <result name="login">inloggen.jsp</result>
+        </action>
+        <action name="reservatieGebruiker" class="com.action.ReserverenAction">
+            <result name="success">/WEB-INF/users/gebruikers.jsp</result>
+            <result name="input">/WEB-INF/users/gebruikers.jsp</result>
+            <result name="login">inloggen.jsp</result>
+        </action>
+        <action name="gebAanpassen" class="com.action.GebruikerAanpassenAction">
+            <result name="success">/WEB-INF/users/gebruikers.jsp</result>
+            <result name="input" >/WEB-INF/users/gebAanpassen.jsp </result>
+            <result name="login">inloggen.jsp</result>
+        </action>
+        <action name="aanpassenGebruiker" class="com.action.Gebruiker">
+            <result name="success">/WEB-INF/users/gebAanpassen.jsp?gebruikersnaam=${persoon.gebruikersnaam}
+            </result>
+            <result name="error">/WEB-INF/users/gebruikers.jsp</result>
+            <result name="login">inloggen.jsp</result>
+        </action>
+        <action name="toevoegen" class="com.action.RegistreerAction">
+            <result name="success">/WEB-INF/users/gebruikers.jsp</result>
+            <result name="input">/WEB-INF/users/gebToevoegen.jsp</result>
+            <result name="login">inloggen.jsp</result>
+        </action>
+        <action name="verwijderenProduct" class="com.action.ProductVerwijderenAction">
+            <result name="success">/WEB-INF/users/producten.jsp</result>
+            <result name="error">/WEB-INF/users/producten.jsp</result>
+            <result name="login">inloggen.jsp</result>
+        </action>
+        <action name="aanpassenProductForm" class="com.action.Product">
+            <result name="success">/WEB-INF/users/productAanpassen.jsp</result>
+            <result name="error">/WEB-INF/users.producten.jsp</result>
+            <result name="login">inloggen.jsp</result>
+        </action>
+        <action name="aanpassenProduct" class="com.action.ProductAanpassenAction">
+            <result name="success">/WEB-INF/users/producten.jsp</result>
+            <result name="input">/WEB-INF/users/productAanpassen.jsp</result>
+            <result name="login">inloggen.jsp</result>
+        </action>
+        <action name="productToevoegen" class="com.action.ProductAanpassenAction">
+            <result name="success">/WEB-INF/users/productToevoegen.jsp</result>
+            <result name="input">/WEB-INF/users/productToevoegen.jsp</result>
+            <result name="login">inloggen.jsp</result>
+        </action>
+        <action name="inventVerwijderen" class="com.action.InventVerwijderen">
+            <result name="success">/WEB-INF/users/inventaris.jsp</result>
+            <result name="error">/WEB-INF/users/inventaris.jsp</result>
+            <result name="login">inloggen.jsp</result>
+        </action>
+        <action name="inventToevoegen" class="com.action.InventToevoegenAction">
+            <result name="success">/WEB-INF/users/inventToevoegen.jsp</result>
+            <result name="input">/WEB-INF/users/inventToevoegen.jsp</result>
+            <result name="login">inloggen.jsp</result>
+        </action>
+        <action name="inventVerwijderenProduct" class="com.action.InventVerwijderen">
+            <result name="success">/WEB-INF/users/productAanpassen.jsp</result>
+            <result name="error">/WEB-INF/users/productAanpassen.jsp</result>
+            <result name="login">inloggen.jsp</result>
+        </action>
+        <action name="reservatieVerwijderen" class="com.action.ReservatieVerwijderenAction">
+            <result name="success">/WEB-INF/users/reservaties.jsp</result>
+            <result name="error">/WEB-INF/users/reservaties.jsp</result>
+            <result name="login">inloggen.jsp</result>
+        </action>
+        <action name="omzetten" class="com.action.OmzettenReservatieAction">
+            <result name="success">/WEB-INF/users/reservaties.jsp</result>
+            <result name="input">/WEB-INF/users/reservaties.jsp</result>
+            <result name="login">inloggen.jsp</result>
+        </action>
+        <action name="resetUser" class="com.action.ResetAction">
+            <result name="success">/WEB-INF/users/gebruikers.jsp</result>
+            <result name="input">/WEB-INF/users/resetWachtwoord.jsp</result>
+            <result name="login">inloggen.jsp</result>
+        </action>
+        <action name="terugbrengenUitleningen" class="com.action.Terugbrengen">
+            <result name="success">/WEB-INF/users/uitleningen.jsp</result>
+            <result name="error">/WEB-INF/users/uitleningen.jsp</result>
+            <result name="login">inloggen.jsp</result>
+        </action>
+        
+        
+        <action name="verlengenUitleningen" class="com.action.Verlengen">
+            <result name="success">/WEB-INF/users/uitleningen.jsp</result>
+            <result name="error">/WEB-INF/users/uitleningen.jsp</result>
+            <result name="login">inloggen.jsp</result>
+        </action>
+        <action name="accountAanpassen" class="com.action.GebruikerAanpassenAction">
+            <result name="success" type="redirect">gebruikersGen?gebruikersnaam=${persoon.gebruikersnaam}</result>
+            <result name="input" >gebruikersGen?gebruikersnaam=${persoon.gebruikersnaam}</result>
+            <result name="login">inloggen.jsp</result>
+            
+        </action>
+        <action name="gebruikersGen" class="com.action.Gebruiker">
+            <result name="success">/WEB-INF/ontleners/account.jsp?gebruikersnaam=${persoon.gebruikersnaam}
+            </result>
+            <result name="error">/WEB-INF/ontleners/account.jsp</result>
+            <result name="login">inloggen.jsp</result>
+        </action>
+        <action name="resetwwAccount" class="com.action.ResetAction">
+            <result name="success" type="redirect">gebruikersGen?gebruikersnaam=${gebruikersnaam}</result>
+            <result name="input">/WEB-INF/ontleners/resetWachtwoord.jsp</result>
+            <result name="login">inloggen.jsp</result>
+        </action>
+        <action name="verlengenGebruiker" class="com.action.Verlengen">
+            <result name="success">/WEB-INF/ontleners/uitleningen.jsp</result>
+            <result name="error">/WEB-INF/ontleners/uitleningen.jsp</result>
+            <result name="login">inloggen.jsp</result>
+        </action>
+        <action name="toevoegenUitlening" class="com.action.UitlenenAction">
+            <result name="success">/WEB-INF/users/uitleningen.jsp</result>
+            <result name="input">/WEB-INF/users/uitleningToevoegen.jsp</result>
+            <result name="login">inloggen.jsp</result>
+        </action>
+        
+        <action name="uitleenAanpassen" class="com.action.UitleenAanpassenAction">
+            <result name="success">/WEB-INF/users/uitleningen.jsp</result>
+            <result name="input" type="redirect">uitleningProductAanpassen?uitleen=${uitlening.id}</result>
+            <result name="login">inloggen.jsp</result>
+        </action>
+        <action name="uitleningProductAanpassen" class="com.action.Uitlening">
+            <result name="success">/WEB-INF/users/uitleenAanpassen.jsp</result>
+            <result name="error">/WEB-INF/users/uitleningen.jsp</result>
+            <result name="login">inloggen.jsp</result>
+        </action>
+        <action name="uitlenenProduct" class="com.action.UitlenenAction2">
+            <result name="success">/WEB-INF/users/producten.jsp</result>
+            <result name="error">/WEB-INF/users/producten.jsp</result>
+            <result name="input">/WEB-INF/users/producten.jsp</result>
+            <result name="login">inloggen.jsp</result>
+            
+        </action>
+        
+        <action name="zoeken" class="com.action.SearchAction">
+            <interceptor-ref name="defaultStack" />
+            <result name="success">/zoeken.jsp</result>
+            <result name="error">/index.jsp</result>
+        </action>
+        <action name="accountReserveren" class="com.action.AccountAction">
+            <interceptor-ref name="defaultStack" />
+            <result name="success">/reservatie.jsp</result>
+            <result name="error">/zoeken.jsp</result>
+        </action>
+        <action name="reserverenVanafAccount" class="com.action.ReserverenAction">
+            <result name="success" type="redirect">accountReserveren?gebruikersnaam=${gebruikersnaam}&amp;id=${productId}</result>
+            <result name="input" type="redirect">reserverenVanafAccount?id=${productId}</result>
+            <result name="login">inloggen.jsp</result>
+        </action>
+        
+        <action name="uitleningToevoegen" class="com.action.UitleenToevoegen">
+            <result name="success">/WEB-INF/users/uitleningToevoegen.jsp</result>
+        </action>
+        
+        <action name="uitleningenUsers" class="com.action.Uitleningen">
+            <result name="success">/WEB-INF/users/uitleningen.jsp</result>
+        </action>
+        
+        <action name="reservatiesUsers" class="com.action.Reservaties">
+            <result name="success">/WEB-INF/users/reservaties.jsp</result>            
+        </action>
+        
+        <action name="gebruikersUsers" class="com.action.Gebruikers">
+            <result name="success">/WEB-INF/users/gebruikers.jsp</result>
+        </action>
+        
+        <action name="gebToevoegenUsers" class="com.action.GebruikerToevoegen">
+            <result name="success">/WEB-INF/users/gebToevoegen.jsp</result>
+        </action>
+        
+        <action name="productenUsers" class="com.action.Producten">
+            <result name="success">/WEB-INF/users/producten.jsp</result>
+        </action>
+        
+        <action name="gecontroleerd" class="com.action.ControleAction" method="controleProduct">
+            <result name="success">/WEB-INF/users/controle.jsp</result>
+            <result name="input">/WEB-INF/users/controle.jsp</result>
+        </action>
+        
+         <action name="gecontroleerdUitlening" class="com.action.ControleAction" method="controleUitlening">
+            <result name="success">/WEB-INF/users/controle.jsp</result>
+            <result name="input">/WEB-INF/users/controle.jsp</result>
+        </action>
+        
+        <action name="productControle" class="com.action.Controle">
+            <result name="success">/WEB-INF/users/controle.jsp</result>
+        </action>
+        
+        <action name="productToevoegenUsers" class="com.action.ProductToevoegen">
+            <result name="success">/WEB-INF/users/productToevoegen.jsp</result>
+        </action>
+        
+        <action name="inventarisUsers" class="com.action.Inventaris">
+            <result name="success">/WEB-INF/users/inventaris.jsp</result>
+        </action>
+        
+        <action name="inventToevoegenUsers" class="com.action.InventarisToevoegen">
+            <result name="success">/WEB-INF/users/inventToevoegen.jsp</result>
+        </action>
+        
+        <action name="uitleningenUitlener" class="com.action.Ontleners">
+            <result name="success">/WEB-INF/ontleners/uitleningen.jsp</result>
+        </action>
+        
+        
+        <action name="resetWachtwoord" class="com.action.ResetPassAction">
+            <result name="success">/WEB-INF/users/resetWachtwoord.jsp</result>
+            
+        </action>
+        <action name="overzichtUitleningen" class="com.action.Overzicht">
+            <result name="success">/WEB-INF/users/overzicht.jsp</result>
+        </action>
+        <action name="periodiekOverzicht" class="com.action.OverzichtAction">
+            <result name="success">/WEB-INF/users/overzichtPagina.jsp</result>
+            
+        </action>
+        
+        <action name="mailPass" class="com.action.SendPassword">
+            <result name="success">mailPass.jsp</result>
+            <result name="input">mailPass.jsp</result>
+        </action>
+    </package>
+    
+</struts>

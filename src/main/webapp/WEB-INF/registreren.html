@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="nl-be">
+  <head>
+    <link rel="stylesheet" href="hoofdpagina.css">
+  </head>
+  <body>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type">
+    <div id="wrapper">
+      <header> 
+      <img src="images/dekade.jpg">
+        <b>Begeleidingscentrum Spermalie</b><br>
+        Staggaardstraat 9, 8000 Brugge<br>
+        tel. 050 47 25 06 <br>
+        <b>De Kade - Het Anker</b><br>
+        Beisbroekdreef 12, 8200 Brugge<br>
+        tel.: 050 39 09 35 </header>
+      <nav>
+        <div id="menu" align="right">
+          <ul>
+            <li><a href="inloggen.jsp">Inloggen</a></li>
+            <li><a href="registreren.jsp">Registreren</a></li>
+          </ul>
+        </div>
+        <div id="dataMenu">
+        	<form method="post" action="zoeken.do">
+				<input type="text" id="txtZoeken" placeholder="Geef een zoekterm in" size="25" />
+				<input type="submit" value="Zoeken" />        	
+        	</form>
+        	<hr />
+      </nav>
+      
+      <section id="hoofdinhoud">
+			<article id="formulier" align="center">
+				<h2 align="center">Registreren</h2>
+				<form method="post" action="inloggen.do">
+					<table border="0" align="center" width="25%">
+						<tr><td>Gebruikersnaam: </td><td><input type="text" class="invullen" id="txtGebruikersnaam" /></td></tr>
+						<tr><td>Wachtwoord: </td><td><input type="password" class="invullen" id="txtWachtwoord" /></td></tr>
+						<tr><td>Bevestig wachtwoord: </td><td><input type="password" class="invullen" id="txtBevestig" /></td></tr>
+						<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+						<tr><td>Voornaam: </td><td><input type="text" class="invullen" id="txtVoornaam"/></td></tr>
+						<tr><td>Naam: </td><td><input type="text" class="invullen" id="txtNaam" /></td></tr>
+						<tr><td>Adres: </td><td><textarea id="txtAdres" class="invullen" rows="3" ></textarea></td></tr>
+						<tr><td>Telefoon: </td><td><input type="text" class="invullen" id="txtTelefoon" /></td></tr>
+						<tr><td>E-mail: </td><td><input type="text" class="invullen" id="txtEmail" /></td></tr>
+						<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+						<tr><td colspan="2" align="center"><input type="submit" value="Registreer" id="txtSubmit" /><input type="reset" value="Wissen" /></td></tr>
+						<tr><td>&nbsp;</td><td>&nbsp;</td></tr>						
+					</table>				
+				</form>			
+			</article>      
+      </section>
+    </div>
+  </body>
+</html>

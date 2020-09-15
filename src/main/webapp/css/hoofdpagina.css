@@ -1,0 +1,79 @@
+header, footer, section, aside, nav, article {
+	display: block;
+}
+#wrapper {
+	background-color: white;
+	width: 1010px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	border: 3px solid gray;
+	border-radius: 10px;
+	margin: 0px auto;
+}
+
+#formulier {
+	background-color:#ebd621;
+	vertical-align:middle;
+	width:500px;
+	border-radius: 10px;
+	margin: auto auto 20px auto;
+	
+}
+
+.invullen {
+	width: 200px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box; 
+        
+}
+#menu {
+	background-color:#ebd621;
+}
+li {
+	padding-left: 5px;
+	display: inline;
+	list-style-type: none;	
+	
+}
+
+
+img {
+	float:left;
+	margin-left:5px;
+}
+
+a {
+	text-decoration:none;
+	color:black;
+}
+hr {
+	border-color:#ebd621;
+	height:5px;
+}
+
+#vereist {
+    color: red;
+}
+
+#zoekItem:hover {
+    
+    background-color:#ebd621;
+    font-weight: bold;
+
+}
+
+.uitgeleend {
+    color:blue;
+    font-weight: bold;
+}
+
+#foutmelding {
+    color: red;
+}
+
+#teLaat {
+    color: red;
+}
+
+
