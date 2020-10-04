@@ -27,12 +27,19 @@ public class Aantal {
         UitleenDao uitleenDao = new UitleenDao();
         InventarisDao inventarisDao = new InventarisDao();
         List<TblUitleen> uitleningen = uitleenDao.getActieveUitleningen(product);
+        List<TblUitleen> uitleningenNogNietGecontroleerd = uitleenDao.getUitleningenNietGecontroleerd(product);
         List<TblInventarisatie> inventaris = inventarisDao.getInventarisProduct(product);
         int aantalUitlenen = 0;
         
         for(int i = 0; i < uitleningen.size(); i++) {
             aantalUitlenen += uitleningen.get(i).getAantal();
         }
+        
+        for(TblUitleen uitlening : uitleningenNogNietGecontroleerd) {
+            aantalUitlenen = uitlening.getAantal();
+        }
+            
+        
           
         return aantalUitlenen;
     }
@@ -62,6 +69,20 @@ public class Aantal {
             
             for(int i = 0; i < reservaties.size(); i++) {
                 aantalReservaties += reservaties.get(i).getAantal();
+            }
+            
+            return aantalReservaties;
+    }
+    
+    public int aantalReservatiesBinnen(TblProduct product) {
+            ReservatieDao reservatieDao = new ReservatieDao();
+            List<TblReservatie> reservaties = reservatieDao.getReservatiesProduct(product);
+            int aantalReservaties = 0;
+            
+            for(int i = 0; i < reservaties.size(); i++) {
+                if(reservaties.get(i).getBinnen() != null) {
+                    aantalReservaties += reservaties.get(i).getAantal();
+                }
             }
             
             return aantalReservaties;

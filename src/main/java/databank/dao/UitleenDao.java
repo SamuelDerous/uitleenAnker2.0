@@ -95,7 +95,7 @@ public class UitleenDao {
         Query qryGebruiker = session.createQuery("from TblPersoon where gebruikersnaam = :gebruikersnaam");
         qryGebruiker.setParameter("gebruikersnaam", gebruikersnaam);
         TblPersoon persoon = (TblPersoon) qryGebruiker.list().get(0);
-        Query zoeken = session.createQuery("from TblUitleen where (teruggebracht = null or teruggebracht = '') and naam = :ontlener");
+        Query zoeken = session.createQuery("from TblUitleen where (teruggebracht = null) and naam = :ontlener");
         zoeken.setParameter("ontlener", persoon);
         return zoeken.list();
     }
@@ -159,5 +159,11 @@ public class UitleenDao {
             
             
             
+    }
+
+    public List<TblUitleen> getUitleningenNietGecontroleerd(TblProduct product) {
+        Query qryUitleningen = session.createQuery("from TblUitleen where spel = :product and teruggebracht != null and controle != 1"); // or teruggebracht = '')");
+        qryUitleningen.setParameter("product", product);
+        return qryUitleningen.list();
     }
 }

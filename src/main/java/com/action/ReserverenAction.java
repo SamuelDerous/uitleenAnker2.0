@@ -15,7 +15,10 @@ import databank.dao.ProductDao;
 import java.sql.Date;
 import java.util.GregorianCalendar;
 import databank.TblReservatie;
+import databank.TblUitleen;
 import databank.dao.ReservatieDao;
+import databank.dao.UitleenDao;
+import java.util.List;
 
 /**
  *
@@ -73,25 +76,37 @@ public class ReserverenAction extends ActionSupport {
                 Aantal aantallen = new Aantal();
                 PersoonDao gebruikerDao = new PersoonDao();
                 ProductDao productDao = new ProductDao();
+                 
                 
                 TblProduct product = productDao.getProductById(productId);
                 GregorianCalendar cal = new GregorianCalendar();
-                cal.add(GregorianCalendar.DAY_OF_MONTH, (product.getUitleentermijn() * 7));
+                //cal.add(GregorianCalendar.DAY_OF_MONTH, (product.getUitleentermijn() * 7));
                 Date datum = new Date(cal.getTimeInMillis());
                 
                 int resAantal = aantallen.maxAantal(product);
-                if(resAantal < Integer.parseInt(aantal)) {
-                    addActionError("Dit product is al gereserveerd.");
+                if(product.getVolledig() != 1) {
+                    addActionError("Het spel is niet volledig, en kan bijgevolg niet meer uitgeleend worden");
                 } else {
+                if(resAantal < Integer.parseInt(aantal)) {
+                    addActionError("Het maximum aantal beschikbaar is " + resAantal);
+                } else {
+                    int aantalUitgeleend = aantallen.aantalUitgeleend(product);
+                    int aantalReservaties = aantallen.aantalReservatiesBinnen(product);
                     TblReservatie reservatie = new TblReservatie();
                     reservatie.setProduct(product);
                     TblPersoon persoon = gebruikerDao.getGebruiker(gebruikersnaam);
                     reservatie.setGebruiker(persoon);
                     reservatie.setReservatieDatum(datum);
                     reservatie.setAantal(Integer.parseInt(aantal));
+                    if(aantalUitgeleend + aantalReservaties >= resAantal) {
+                        reservatie.setBinnen(null);
+                    } else {
+                        reservatie.setBinnen(datum);
+                    }
                     ReservatieDao reservatieDao = new ReservatieDao();
                     reservatieDao.toevoegenReservatie(reservatie);
                
+                }
                 }
             
         } else {

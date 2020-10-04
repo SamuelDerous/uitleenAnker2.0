@@ -47,6 +47,8 @@ public class TblReservatie implements Serializable {
     private Date reservatieDatum;
     @Column(name = "aantal")
     private Integer aantal;
+    @Column(name = "binnen")
+    private Date binnen;
     @JoinColumn(name = "product", referencedColumnName = "id")
     @ManyToOne
     private TblProduct product;
@@ -100,6 +102,16 @@ public class TblReservatie implements Serializable {
     public void setGebruiker(TblPersoon gebruiker) {
         this.gebruiker = gebruiker;
     }
+
+    public Date getBinnen() {
+        return binnen;
+    }
+
+    public void setBinnen(Date binnen) {
+        this.binnen = binnen;
+    }
+    
+    
 
     @Override
     public int hashCode() {

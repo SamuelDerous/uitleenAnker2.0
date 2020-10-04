@@ -8,7 +8,11 @@ package com.action;
 import com.opensymphony.xwork2.ActionSupport;
 import crypto.EncryptionIni;
 import databank.TblPersoon;
+import databank.TblReservatie;
+import databank.TblUitleen;
 import databank.dao.PersoonDao;
+import databank.dao.ReservatieDao;
+import databank.dao.UitleenDao;
 import java.util.List;
 import javax.servlet.http.HttpSession;
 import org.apache.struts2.ServletActionContext;
@@ -23,6 +27,9 @@ public class LoginAction extends ActionSupport {
     
     private String gebruikersnaam;
     private String wachtwoord;
+    private List<TblUitleen> actieveUitleningen;
+    private List<TblReservatie> reserveringen;
+    private List<TblUitleen> vorigeUitleningen;
 
     public String getGebruikersnaam() {
         return gebruikersnaam;
@@ -40,6 +47,24 @@ public class LoginAction extends ActionSupport {
         this.wachtwoord = wachtwoord;
     }
 
+    public List<TblUitleen> getActieveUitleningen() {
+        return actieveUitleningen;
+    }
+
+    public void setActieveUitleningen(List<TblUitleen> actieveUitleningen) {
+        this.actieveUitleningen = actieveUitleningen;
+    }
+
+    public List<TblReservatie> getReserveringen() {
+        return reserveringen;
+    }
+
+    public void setReserveringen(List<TblReservatie> reserveringen) {
+        this.reserveringen = reserveringen;
+    }
+    
+    
+
     @Override
     public void validate() {
         try {
@@ -50,12 +75,13 @@ public class LoginAction extends ActionSupport {
             if(!personen.isEmpty()) {
                  sessie.setAttribute("gebruikersnaam", gebruikersnaam);
                  sessie.setAttribute("soort", personen.get(0).getSoort().getSoort());
-                 addActionMessage("Welkom " + gebruikersnaam);
+                 //addActionMessage("Welkom " + gebruikersnaam);
                 
             } else {
                 sessie.setAttribute("gebruikersnaam", "");
                 addActionError("Gebruikersnaam of wachtwoord is niet gekend.");
             }
+            
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -63,6 +89,10 @@ public class LoginAction extends ActionSupport {
 
     @Override
     public String execute() throws Exception {
+        UitleenDao uitleenDao = new UitleenDao();
+        ReservatieDao reservatieDao = new ReservatieDao();
+        actieveUitleningen = uitleenDao.getActieveUitleningenGebruiker(gebruikersnaam);
+        reserveringen = reservatieDao.getReservatiesGebruiker(gebruikersnaam);
         return SUCCESS;
     }
     

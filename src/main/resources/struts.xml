@@ -23,7 +23,7 @@
         
         <action name="loginUser" class="com.action.LoginAction">
             <interceptor-ref name="defaultStack" />
-            <result name="success">ingelogd.jsp</result>
+            <result name="success">/WEB-INF/ingelogd.jsp</result>
             <result name="input">inloggen.jsp</result>
             <result name="login">inloggen.jsp</result>
         </action>

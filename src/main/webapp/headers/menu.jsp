@@ -3,10 +3,12 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 
-<nav id="menu" class="navbar navbar-expand-lg">
+<nav id="menu" class="navbar navbar-expand-lg sticky-top" >
  
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    
+     <a class="navbar-brand" href="#">
+    <img src="${pageContext.request.contextPath}/images/dekadeSmall.png" alt="">
+  </a>
       <ul class="navbar-nav mr-auto">
       <s:if test="(#session.gebruikersnaam != null && !#session.gebruikersnaam.equals(\"\")) && (#session.soort != null && #session.soort.equals(\"gebruiker\"))">
   
@@ -109,4 +111,4 @@
         		
       </div>
    
-     
+   

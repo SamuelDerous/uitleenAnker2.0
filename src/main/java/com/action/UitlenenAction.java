@@ -10,13 +10,16 @@ import creatie.Aantal;
 import static creatie.Controle.isInteger;
 import databank.TblPersoon;
 import databank.TblProduct;
+import databank.TblReservatie;
 import databank.TblUitleen;
 import databank.dao.PersoonDao;
 import databank.dao.ProductDao;
+import databank.dao.ReservatieDao;
 import databank.dao.UitleenDao;
 import java.sql.Date;
 import java.util.Collection;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 /**
  *
@@ -103,6 +106,8 @@ public class UitlenenAction extends ActionSupport {
                         Aantal aantallen = new Aantal();
                         int aantalUitlenen = aantallen.aantalUitgeleend(product);
                         int aantalReservaties = aantallen.aantalReservaties(product);
+                        ReservatieDao reservatieDao = new ReservatieDao();
+                        List<TblReservatie> tblReservatie = reservatieDao.getReservatiesGebruikerPerProduct(gebruikersnaam, product);
                         int maxUitleningen = aantallen.maxAantal(product);
                         if (aantalNumber != null && !isInteger(aantalNumber)) {
                             if (aantalNumber.equals("")) {
@@ -117,10 +122,26 @@ public class UitlenenAction extends ActionSupport {
                                 isUitgeleend = true;
                                 correct = false;
                             }
-                            if (aantalReservaties + (Integer.parseInt(aantalNumber)) > maxUitleningen) {
-                                isGereserveerd = true;
-                                correct = false;
+                            int aantalGesteldeReservaties = 0;
+                            for(TblReservatie reservatie : tblReservatie) {
+                                if(reservatie.getBinnen() != null) {
+                                    aantalGesteldeReservaties += reservatie.getAantal();
+                                }
                             }
+                                if (aantalReservaties + (Integer.parseInt(aantalNumber)) > maxUitleningen) {
+                                    if(aantalGesteldeReservaties > (Integer.parseInt(aantalNumber)) + maxUitleningen) {
+                                        isGereserveerd = true;
+                                        correct = false;
+                                    } else {
+                                        for(TblReservatie reservatie : tblReservatie) {
+                                            if(reservatie.getBinnen() != null) {
+                                                reservatieDao.verwijderReservatie(reservatie);
+                                                isGereserveerd = false;
+                                            }
+                                        }
+                                    }
+                            } 
+                            
                         }
                         if (product.getVolledig() != 1) {
                             correct = false;

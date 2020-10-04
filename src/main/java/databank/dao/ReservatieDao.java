@@ -9,6 +9,7 @@ import databank.TblPersoon;
 import databank.TblProduct;
 import databank.TblReservatie;
 import databank.adapter.HibernateFactory;
+import java.util.GregorianCalendar;
 import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -30,7 +31,7 @@ public class ReservatieDao {
     }
     
     public List<TblReservatie> getReservatiesProduct(TblProduct product) {
-        Query qryReservaties = session.createQuery("from TblReservatie where product = :product");
+        Query qryReservaties = session.createQuery("from TblReservatie where product = :product order by reservatieDatum");
         qryReservaties.setParameter("product", product);
         return qryReservaties.list();
     }
@@ -41,6 +42,17 @@ public class ReservatieDao {
         TblPersoon persoon = (TblPersoon) qryGebruiker.list().get(0);
         Query qryReservaties = session.createQuery("from TblReservatie where gebruiker = :gebruiker");
         qryReservaties.setParameter("gebruiker", persoon);
+        return qryReservaties.list();
+    }
+    
+    public List<TblReservatie> getReservatiesGebruikerPerProduct(String gebruikersnaam, TblProduct product) {
+        Query qryGebruiker = session.createQuery("from TblPersoon where gebruikersnaam = :gebruikersnaam");
+        qryGebruiker.setParameter("gebruikersnaam", gebruikersnaam);
+        TblPersoon persoon = (TblPersoon) qryGebruiker.list().get(0);
+        Query qryReservaties = session.createQuery("from TblReservatie where gebruiker = :gebruiker and product = :product");
+        qryReservaties.setParameter("gebruiker", persoon);
+        qryReservaties.setParameter("product", product);
+        //qryReservaties.setMaxResults(1);
         return qryReservaties.list();
     }
     
@@ -83,5 +95,26 @@ public class ReservatieDao {
         session.delete(reservatie);
         session.getTransaction().commit();
         session.close();
+    }
+    
+    public void updateBinnen(TblReservatie reservatie) {
+            Transaction tx = session.beginTransaction();
+            TblReservatie reservatieTabel = (TblReservatie) session.load(TblReservatie.class, reservatie.getId());
+            reservatieTabel.setBinnen(reservatie.getBinnen());
+            session.update(reservatieTabel);
+            tx.commit();
+    }
+
+    public List<TblReservatie> getReservatiesOutDated(GregorianCalendar now) {
+            Transaction tx = session.beginTransaction();
+            Query reservaties = session.createQuery("from tblReservatie where binnen < :datum");
+            reservaties.setParameter("datum", now.getTime());
+            return (List<TblReservatie>) reservaties.list();
+    }
+
+    public List<TblReservatie> getReservatiesProductNotIn(TblProduct product) {
+         Query qryReservaties = session.createQuery("from TblReservatie where product = :product and binnen = null order by reservatieDatum");
+        qryReservaties.setParameter("product", product);
+        return qryReservaties.list();
     }
 }

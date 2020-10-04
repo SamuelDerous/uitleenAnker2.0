@@ -47,7 +47,10 @@ public class OmzettenReservatieAction extends ActionSupport {
                 if((aantalUitleningen >= reservaties.get(0).getAantal())) {
                     addActionError("Het maximaal aantal uitleningen voor dit product is bereikt.<br>");
                 
-                } else {
+                } else if (reservaties.get(0).getBinnen() == null || reservaties.get(0).getBinnen().getTime() == 0) {
+                    addActionError("Het product dat u hebt gereserveerd is nog niet binnen.");
+                } 
+                else {
                 TblUitleen uitlening = new TblUitleen();
                 uitlening.setNaam(reservaties.get(0).getGebruiker());
                 uitlening.setSpel(reservaties.get(0).getProduct());
@@ -58,7 +61,7 @@ public class OmzettenReservatieAction extends ActionSupport {
                 GregorianCalendar calTermijn = new GregorianCalendar();
                 int termijnUitleen;
                 if(reservaties.get(0).getProduct().getUitleentermijn() == null || reservaties.get(0).getProduct().getUitleentermijn().equals("")) {
-                    termijnUitleen = 28;
+                    termijnUitleen = 14;
                 } else {
                     termijnUitleen = reservaties.get(0).getProduct().getUitleentermijn() * 7;
                 }

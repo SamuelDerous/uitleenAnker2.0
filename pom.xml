@@ -3,11 +3,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.zenodotus</groupId>
-    <artifactId>UitleenAnker2.0</artifactId>
-    <version>2.0-SNAPSHOT</version>
+    <artifactId>UitleenAnker</artifactId>
+    <version>2.0</version>
     <packaging>war</packaging>
 
-    <name>UitleenAnker2.0</name>
+    <name>UitleenAnker</name>
 
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>

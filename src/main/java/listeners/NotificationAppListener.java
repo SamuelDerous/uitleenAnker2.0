@@ -6,8 +6,10 @@
 package listeners;
 
 import creatie.MailSend;
+import databank.TblReservatie;
 import databank.TblUitleen;
 import databank.adapter.HibernateFactory;
+import databank.dao.ReservatieDao;
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -90,6 +92,12 @@ public class NotificationAppListener implements ServletContextListener {
             }
             System.out.println("Mails verzonden");
             System.out.println(uitleningen.size());
+            ReservatieDao reservatieDao = new ReservatieDao();
+            now.add(GregorianCalendar.DAY_OF_YEAR, 14);
+            List<TblReservatie> reservaties = reservatieDao.getReservatiesOutDated(now);
+            for(TblReservatie reservatie : reservaties) {
+                reservatieDao.verwijderReservatie(reservatie);
+            }
             
         }
         

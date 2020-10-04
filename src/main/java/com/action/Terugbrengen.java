@@ -5,12 +5,15 @@
  */
 package com.action;
 
-import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionSupport;
+import creatie.MailSend;
+import databank.TblReservatie;
 import databank.TblUitleen;
 import databank.dao.ProductDao;
 import databank.dao.UitleenDao;
+import databank.dao.ReservatieDao;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 /**
  *
@@ -31,8 +34,8 @@ public class Terugbrengen extends ActionSupport {
     @Override
     public String execute() throws Exception {
         GregorianCalendar cal = new GregorianCalendar();
-        
         UitleenDao uitleenDao = new UitleenDao();
+        ReservatieDao reservatieDao = new ReservatieDao();
         TblUitleen uitlening = uitleenDao.getUitleningen(uitleen);
         uitlening.setTeruggebracht(cal.getTime());
         uitlening.setControle(0);

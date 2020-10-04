@@ -36,7 +36,7 @@
     
     <div id="wrapper">
       <header> 
-      <img src="${pageContext.request.contextPath}/images/dekade.jpg">
+      <img src="${pageContext.request.contextPath}/images/dekade.png" id="logo" height="130px">
         <b>Begeleidingscentrum Spermalie</b><br>
         Staggaardstraat 9, 8000 Brugge<br>
         tel. 050 47 25 06 <br>

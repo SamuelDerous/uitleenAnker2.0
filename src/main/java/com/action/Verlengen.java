@@ -6,6 +6,8 @@
 package com.action;
 
 import com.opensymphony.xwork2.Action;
+import com.opensymphony.xwork2.ActionSupport;
+import creatie.Aantal;
 import databank.TblUitleen;
 import databank.dao.UitleenDao;
 import java.text.DateFormat;
@@ -16,7 +18,8 @@ import java.util.GregorianCalendar;
  *
  * @author zenodotus
  */
-public class Verlengen implements Action {
+public class Verlengen extends ActionSupport {
+
     private int uitleen;
 
     public int getUitleen() {
@@ -31,19 +34,35 @@ public class Verlengen implements Action {
     public String execute() throws Exception {
         UitleenDao uitleenDao = new UitleenDao();
         TblUitleen uitlening = uitleenDao.getUitleningen(uitleen);
-        
-        GregorianCalendar cal = new GregorianCalendar();
-        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        if(uitlening.getSpel().getUitleentermijn() != null && !uitlening.getSpel().getUitleentermijn().equals("")) {
-            cal.add(GregorianCalendar.DAY_OF_YEAR, (uitlening.getSpel().getUitleentermijn() * 7));
-        } else {
-            cal.add(GregorianCalendar.DAY_OF_YEAR, 28);
+        Aantal aantallen = new Aantal();
+        boolean isGereserveerd = false;
+        boolean correct = true;
+
+        int aantalUitlenen = aantallen.aantalUitgeleend(uitlening.getSpel());
+        int aantalReservaties = aantallen.aantalReservaties(uitlening.getSpel());
+        int maxUitleningen = aantallen.maxAantal(uitlening.getSpel());
+
+        if (aantalReservaties > maxUitleningen) {
+            isGereserveerd = true;
+            correct = false;
         }
-        
-        uitlening.setTerugbrengdatum(cal.getTime());
-        uitleenDao.aanpassen(uitlening);
+        if (correct) {
+            GregorianCalendar cal = new GregorianCalendar();
+            DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            if (uitlening.getSpel().getUitleentermijn() != null && !uitlening.getSpel().getUitleentermijn().equals("")) {
+                cal.add(GregorianCalendar.DAY_OF_YEAR, (uitlening.getSpel().getUitleentermijn() * 7));
+            } else {
+                cal.add(GregorianCalendar.DAY_OF_YEAR, 28);
+            }
+
+            uitlening.setTerugbrengdatum(cal.getTime());
+            uitleenDao.aanpassen(uitlening);
+        } else {
+            if (isGereserveerd) {
+                addActionError("Het spel kan niet verlengd worden, daar het voor  iemand anders is gereserveerd.");
+                return INPUT;
+            }
+        }
         return SUCCESS;
     }
-    
-    
 }
