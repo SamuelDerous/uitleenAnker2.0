@@ -20,76 +20,77 @@
     <article id="Overzicht" align="center">
         <h2 align="center">Overzicht <s:if test="sort.equals(\"yearly\")">${jaar}</s:if><s:elseif test="sort.equals(\"academicly\")">${jaar} - ${jaar + 1}</s:elseif></h2>
 
-            <table border="1" width="100%">
+            <table id="overzichtstable" border="1" width="100%">
             <jsp:useBean id="producten" class="databank.dao.ProductDao" scope="request" />
             <jsp:useBean id="kwartaalOptelling" class="databank.dao.UitleenDao" />
             <s:if test="sort.equals(\"yearly\")">
-                <thead><th>Product</th><th>Jaarlijks</th><th>Jan</th><th>Feb</th><th>Maart</th><th>April</th><th>Mei</th><th>Juni</th><th>Juli</th><th>Aug</th><th>Sep</th><th>Okt</th><th>Nov</th><th>Dec</th></thead>
-                </s:if>
-                <s:elseif test="sort.equals(\"academicly\")">
-                <thead><th>Product</th><th>dit academiejaar</th><th>Sep</th><th>Okt</th><th>Nov</th><th>Dec</th><th>Jan</th><th>Feb</th><th>Maart</th><th>April</th><th>Mei</th><th>Juni</th><th>Juli</th><th>Aug</th></thead>
-                </s:elseif>
-                <s:if test="productId == 0">
-                    <c:forEach var="producties" items="${producten.alleProducten}">
-                        <c:set var="productie" value="${producties.naam}"/>
-                    <tr><td>${productie}</td>
-                        <s:if test="sort.equals(\"yearly\")">
-                            <c:set var="optelling" value="${kwartaalOptelling.getOverzicht(producties, jaar)}" />
-                        </s:if>
-                        <s:elseif test="sort.equals(\"academicly\")">
-                            <c:set var="optelling" value="${kwartaalOptelling.getAcademicOverzicht(producties, jaar)}" />
-                        </s:elseif>
+                <thead><tr><th>Product</th><th>Jaarlijks</th><th>Jan</th><th>Feb</th><th>Maart</th><th>April</th><th>Mei</th><th>Juni</th><th>Juli</th><th>Aug</th><th>Sep</th><th>Okt</th><th>Nov</th><th>Dec</th></tr></thead>
+            </s:if>
+            <s:elseif test="sort.equals(\"academicly\")">
+                    <thead><tr><th>Product</th><th>dit academiejaar</th><th>Sep</th><th>Okt</th><th>Nov</th><th>Dec</th><th>Jan</th><th>Feb</th><th>Maart</th><th>April</th><th>Mei</th><th>Juni</th><th>Juli</th><th>Aug</th></tr></thead>
+            </s:elseif>
+                <tbody>
+                    <s:if test="productId == 0">
+                        <c:forEach var="producties" items="${producten.alleProducten}">
+                            <c:set var="productie" value="${producties.naam}"/>
+                            <tr><td width="150px">${productie}</td>
+                                <s:if test="sort.equals(\"yearly\")">
+                                    <c:set var="optelling" value="${kwartaalOptelling.getOverzicht(producties, jaar)}" />
+                            </s:if>
+                            <s:elseif test="sort.equals(\"academicly\")">
+                                <c:set var="optelling" value="${kwartaalOptelling.getAcademicOverzicht(producties, jaar)}" />
+                            </s:elseif>
 
-                        <td>${optelling}</td>
+                            <td width="50px">${optelling}</td>
+                            <s:if test="sort.equals(\"yearly\")">
+                                <c:forEach var="teller" begin="1" end="12">
+                                    <c:set var="maandelijks" value="${kwartaalOptelling.getOverzicht(producties, jaar, teller)}" />
+                                    <td width="30px">${maandelijks}</td>
+                                </c:forEach>
+                            </s:if>
+                            <s:elseif test="sort.equals(\"academicly\")">
+                                <c:forEach var="teller" begin="9" end="12">
+                                    <c:set var="maandelijks" value="${kwartaalOptelling.getOverzicht(producties, jaar, teller)}" />
+                                    <td width="30px">${maandelijks}</td>
+                                </c:forEach>
+                                <c:forEach var="teller" begin="1" end="8">
+                                    <c:set var="maandelijks" value="${kwartaalOptelling.getOverzicht(producties, (jaar + 1), teller)}" />
+                                    <td width="30px">${maandelijks}</td>
+                                </c:forEach>
+                            </s:elseif>
+                        </tr>
+                    </c:forEach>
+                </s:if>
+
+                <s:else>
+                    <c:set var="indProduct" value="${producten.getProductById(productId)}" />
+                    <tr><td>${indProduct.naam}</td>
                         <s:if test="sort.equals(\"yearly\")">
+                            <c:set var="productJaar" value="${kwartaalOptelling.getOverzicht(indProduct, jaar)}" />
+                            <td>${productJaar}</td>
+
                             <c:forEach var="teller" begin="1" end="12">
-                                <c:set var="maandelijks" value="${kwartaalOptelling.getOverzicht(producties, jaar, teller)}" />
-                                <td width="10px">${maandelijks}</td>
+                                <c:set var="productMaand" value="${kwartaalOptelling.getOverzicht(indProduct, jaar, teller)}" />
+                                <td>${productMaand}</td>
                             </c:forEach>
                         </s:if>
                         <s:elseif test="sort.equals(\"academicly\")">
+                            <c:set var="productJaar" value="${kwartaalOptelling.getAcademicOverzicht(indProduct, jaar)}" />
+                            <td>${productJaar}</td>
                             <c:forEach var="teller" begin="9" end="12">
-                                <c:set var="maandelijks" value="${kwartaalOptelling.getOverzicht(producties, jaar, teller)}" />
+                                <c:set var="maandelijks" value="${kwartaalOptelling.getOverzicht(indProduct, jaar, teller)}" />
                                 <td width="10px">${maandelijks}</td>
                             </c:forEach>
                             <c:forEach var="teller" begin="1" end="8">
-                                <c:set var="maandelijks" value="${kwartaalOptelling.getOverzicht(producties, (jaar + 1), teller)}" />
+                                <c:set var="maandelijks" value="${kwartaalOptelling.getOverzicht(intProduct, (jaar + 1), teller)}" />
                                 <td width="10px">${maandelijks}</td>
                             </c:forEach>
                         </s:elseif>
-                    </tr>
-                </c:forEach>
-            </s:if>
-
-            <s:else>
-                <c:set var="indProduct" value="${producten.getProductById(productId)}" />
-                <tr><td>${indProduct.naam}</td>
-                    <s:if test="sort.equals(\"yearly\")">
-                        <c:set var="productJaar" value="${kwartaalOptelling.getOverzicht(indProduct, jaar)}" />
-                        <td>${productJaar}</td>
-
-                        <c:forEach var="teller" begin="1" end="12">
-                            <c:set var="productMaand" value="${kwartaalOptelling.getOverzicht(indProduct, jaar, teller)}" />
-                            <td>${productMaand}</td>
-                        </c:forEach>
-                    </s:if>
-                    <s:elseif test="sort.equals(\"academicly\")">
-                        <c:set var="productJaar" value="${kwartaalOptelling.getAcademicOverzicht(indProduct, jaar)}" />
-                        <td>${productJaar}</td>
-                        <c:forEach var="teller" begin="9" end="12">
-                            <c:set var="maandelijks" value="${kwartaalOptelling.getOverzicht(indProduct, jaar, teller)}" />
-                            <td width="10px">${maandelijks}</td>
-                        </c:forEach>
-                        <c:forEach var="teller" begin="1" end="8">
-                            <c:set var="maandelijks" value="${kwartaalOptelling.getOverzicht(intProduct, (jaar + 1), teller)}" />
-                            <td width="10px">${maandelijks}</td>
-                        </c:forEach>
-                    </s:elseif>
 
                     </tr>
-            </s:else>   
+                </s:else>   
 
-
+            </tbody>
 
         </table>
 
@@ -98,11 +99,11 @@
 </div>
 <script type="text/javascript">
 
-<!--
+
     $(document).ready(function () {
-        $('#controleTable').DataTable();
+        $('#overzichtstable').DataTable();
     });
-    -- >
+
             $('#slctKwartaal').change(function () {
         if (this.value == "maandelijks") {
             $("#rowMonth").show();

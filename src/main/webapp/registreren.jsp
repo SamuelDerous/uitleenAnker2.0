@@ -6,6 +6,7 @@
 <%@ taglib uri="/struts-tags" prefix="s" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <jsp:include page="headers/header.jsp" />
+<jsp:include page="headers/menu.jsp" />
 <script type="text/javascript" src="js/validation.js"></script>
 
 <section id="hoofdinhoud">

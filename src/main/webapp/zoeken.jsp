@@ -15,12 +15,19 @@
         display: block;
     }
     .displayListView {
-        display: inline-block;
+        display: table-cell;
         vertical-align: middle !important;
         margin-top:5px;
         margin-bottom:5px;
         padding-left:10px;
         float: none;
+    }
+    
+    a {
+        text-decoration: none;
+    }
+    a:hover {
+        text-decoration: none;
     }
 
     .displayRow {
@@ -29,14 +36,18 @@
         -khtml-border-radius: 10px; 
         border-radius: 10px;
         height: 50px;
+        display: table;
+        width: 100%;
         
         color: gray;
         vertical-align: middle !important;
     }
+    
     .displayRow:hover, lvLevel:hover {
-        background-color:#ebd621;
+        background-color:#d4ebf2;
 
     }
+    
 
 </style>
 <section id="hoofdinhoud"> 

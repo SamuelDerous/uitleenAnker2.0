@@ -80,6 +80,8 @@ public class TblUitleen implements Serializable {
     private int mails;
     @Column(name="controle")
     private Integer controle;
+    @Column(name="volledig")
+    private Integer volledig;
 
 
     public TblUitleen() {
@@ -173,11 +175,15 @@ public class TblUitleen implements Serializable {
     public void setControle(Integer controle) {
         this.controle = controle;
     }
-    
-    
-    
-    
 
+    public Integer getVolledig() {
+        return volledig;
+    }
+
+    public void setVolledig(Integer volledig) {
+        this.volledig = volledig;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;

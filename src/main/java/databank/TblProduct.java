@@ -56,7 +56,6 @@ public class TblProduct implements Serializable {
     private Integer volledig;
     @Column(name = "controle")
     private Integer controle;
-
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "spel")
     private Collection<TblUitleen> tblUitleenCollection;
 
@@ -89,6 +88,9 @@ public class TblProduct implements Serializable {
     @JoinColumn(name = "beschrijving", referencedColumnName = "soort")
     @ManyToOne
     private TblBeschrijving beschrijving;
+    
+    @Column(name="afbeelding")
+    private String afbeelding;
 
     public TblProduct() {
     }
@@ -169,6 +171,14 @@ public class TblProduct implements Serializable {
         this.beschrijving = beschrijving;
     }
 
+    public String getAfbeelding() {
+        return afbeelding;
+    }
+
+    public void setAfbeelding(String afbeelding) {
+        this.afbeelding = afbeelding;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;
