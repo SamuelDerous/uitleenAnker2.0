@@ -64,7 +64,7 @@
 
                 <s:else>
                     <c:set var="indProduct" value="${producten.getProductById(productId)}" />
-                    <tr><td>${indProduct.naam}</td>
+                    <tr><td width="150px">${indProduct.naam}</td>
                         <s:if test="sort.equals(\"yearly\")">
                             <c:set var="productJaar" value="${kwartaalOptelling.getOverzicht(indProduct, jaar)}" />
                             <td>${productJaar}</td>
@@ -76,14 +76,14 @@
                         </s:if>
                         <s:elseif test="sort.equals(\"academicly\")">
                             <c:set var="productJaar" value="${kwartaalOptelling.getAcademicOverzicht(indProduct, jaar)}" />
-                            <td>${productJaar}</td>
+                            <td width="50px">${productJaar}</td>
                             <c:forEach var="teller" begin="9" end="12">
                                 <c:set var="maandelijks" value="${kwartaalOptelling.getOverzicht(indProduct, jaar, teller)}" />
-                                <td width="10px">${maandelijks}</td>
+                                <td width="30px">${maandelijks}</td>
                             </c:forEach>
                             <c:forEach var="teller" begin="1" end="8">
                                 <c:set var="maandelijks" value="${kwartaalOptelling.getOverzicht(intProduct, (jaar + 1), teller)}" />
-                                <td width="10px">${maandelijks}</td>
+                                <td width="30px">${maandelijks}</td>
                             </c:forEach>
                         </s:elseif>
 

@@ -58,7 +58,7 @@ public class NotificationAppListener implements ServletContextListener {
             nu.add(GregorianCalendar.DAY_OF_MONTH, 4);
             SessionFactory factory = HibernateFactory.getSessionFactory();
             Session session = factory.openSession();
-            Query qryUitleningen = session.createQuery("from TblUitleen where (teruggebracht = null) and terugbrengdatum < :datum");
+            Query qryUitleningen = session.createQuery("from TblUitleen where (teruggebracht = null) and terugbrengdatum < :datum and mails = 0);");
             qryUitleningen.setDate("datum", new Date(nu.getTimeInMillis()));
             List<TblUitleen> uitleningen = qryUitleningen.list();
             MailSend mail;
@@ -73,7 +73,7 @@ public class NotificationAppListener implements ServletContextListener {
             
             GregorianCalendar now = new GregorianCalendar();
             //now.add(GregorianCalendar.DAY_OF_MONTH, 4);
-            qryUitleningen = session.createQuery("from TblUitleen where (teruggebracht = null) and terugbrengdatum < :datum");
+            qryUitleningen = session.createQuery("from TblUitleen where (teruggebracht = null) and terugbrengdatum < :datum and mails < 2");
             qryUitleningen.setDate("datum", new Date(now.getTimeInMillis()));
             uitleningen = qryUitleningen.list();
             for(int i = 0; i < uitleningen.size(); i++) {
@@ -93,6 +93,7 @@ public class NotificationAppListener implements ServletContextListener {
             System.out.println("Mails verzonden");
             System.out.println(uitleningen.size());
             ReservatieDao reservatieDao = new ReservatieDao();
+            now = new GregorianCalendar();
             now.add(GregorianCalendar.DAY_OF_YEAR, 14);
             List<TblReservatie> reservaties = reservatieDao.getReservatiesOutDated(now);
             for(TblReservatie reservatie : reservaties) {

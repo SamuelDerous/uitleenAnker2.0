@@ -9,6 +9,7 @@ import databank.TblPersoon;
 import databank.TblProduct;
 import databank.TblReservatie;
 import databank.adapter.HibernateFactory;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import org.hibernate.Query;
@@ -106,10 +107,10 @@ public class ReservatieDao {
     }
 
     public List<TblReservatie> getReservatiesOutDated(GregorianCalendar now) {
-            Transaction tx = session.beginTransaction();
-            Query reservaties = session.createQuery("from tblReservatie where binnen < :datum");
-            reservaties.setParameter("datum", now.getTime());
+            Query reservaties = session.createQuery("from TblReservatie where binnen < :datum");
+            reservaties.setParameter("datum", new Date(now.getTimeInMillis()));
             return (List<TblReservatie>) reservaties.list();
+            
     }
 
     public List<TblReservatie> getReservatiesProductNotIn(TblProduct product) {
